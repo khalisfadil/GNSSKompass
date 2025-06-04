@@ -2,7 +2,11 @@
 
 // -----------------------------------------------------------------------------
 
-void decode_ID20(const std::vector<uint8_t>& packet, DataFrameID20& frame) {
+GnssCompassCallback::GnssCompassCallback(){}
+
+// -----------------------------------------------------------------------------
+
+void GnssCompassCallback::decode_ID20(const std::vector<uint8_t>& packet, DataFrameID20& frame) {
 
     // Define static expected size
     static constexpr size_t expected_size_ = 105; // 5-byte header + 100-byte data
@@ -137,7 +141,7 @@ void decode_ID20(const std::vector<uint8_t>& packet, DataFrameID20& frame) {
 
 // -----------------------------------------------------------------------------
 
-void decode_ID25(const std::vector<uint8_t>& packet, DataFrameID25& frame) {
+void GnssCompassCallback::decode_ID25(const std::vector<uint8_t>& packet, DataFrameID25& frame) {
     // Define static expected size
     static constexpr size_t header_size_ = 5;      // 5-byte header (LRC, ID, Length, CRC)
     static constexpr size_t data_size_ = 12;       // Packet data length is 12 bytes
@@ -195,7 +199,7 @@ void decode_ID25(const std::vector<uint8_t>& packet, DataFrameID25& frame) {
 
 // -----------------------------------------------------------------------------
 
-void decode_ID26(const std::vector<uint8_t>& packet, DataFrameID26& frame) {
+void GnssCompassCallback::decode_ID26(const std::vector<uint8_t>& packet, DataFrameID26& frame) {
     // Define static expected size
     static constexpr size_t header_size_ = 5;      // 5-byte header (LRC, ID, Length, CRC)
     static constexpr size_t data_size_ = 12;       // Packet data length is 12 bytes
@@ -253,7 +257,7 @@ void decode_ID26(const std::vector<uint8_t>& packet, DataFrameID26& frame) {
 
 // -----------------------------------------------------------------------------
 
-void decode_ID28(const std::vector<uint8_t>& packet, DataFrameID28& frame) {
+void GnssCompassCallback::decode_ID28(const std::vector<uint8_t>& packet, DataFrameID28& frame) {
     // Define static expected size
     static constexpr size_t header_size_ = 5;      // 5-byte header (LRC, ID, Length, CRC)
     static constexpr size_t data_size_ = 48;       // Packet data length is 48 bytes
@@ -320,7 +324,7 @@ void decode_ID28(const std::vector<uint8_t>& packet, DataFrameID28& frame) {
 
 // -----------------------------------------------------------------------------
 
-void decode_ID29(const std::vector<uint8_t>& packet, DataFrameID29& frame) {
+void GnssCompassCallback::decode_ID29(const std::vector<uint8_t>& packet, DataFrameID29& frame) {
     // Define static expected size
     static constexpr size_t header_size_ = 5;      // 5-byte header (LRC, ID, Length, CRC)
     static constexpr size_t data_size_ = 74;       // Packet data length is 74 bytes

@@ -21,10 +21,5 @@ class GnssCompassCallback {
         void decode_ID26(const std::vector<uint8_t>& packet, DataFrameID26& frame); 
         void decode_ID28(const std::vector<uint8_t>& packet, DataFrameID28& frame); 
         void decode_ID29(const std::vector<uint8_t>& packet, DataFrameID29& frame); 
-
-    private:
-
-    size_t expected_size_ID20_ = 100;
     
-
 };
