@@ -12,14 +12,18 @@
 #include <DataFrame_ID28.hpp>
 #include <DataFrame_ID29.hpp>
 
-class GnssCompassCallback {
-    public:
-        explicit GnssCompassCallback();
+namespace decodeNav {
 
-        void decode_ID20(const std::vector<uint8_t>& packet, DataFrameID20& frame); 
-        void decode_ID25(const std::vector<uint8_t>& packet, DataFrameID25& frame); 
-        void decode_ID26(const std::vector<uint8_t>& packet, DataFrameID26& frame); 
-        void decode_ID28(const std::vector<uint8_t>& packet, DataFrameID28& frame); 
-        void decode_ID29(const std::vector<uint8_t>& packet, DataFrameID29& frame); 
-    
-};
+    class GnssCompassCallback {
+        public:
+            explicit GnssCompassCallback();
+
+            void decode_ID20(const std::vector<uint8_t>& packet, DataFrameID20& frame); 
+            void decode_ID25(const std::vector<uint8_t>& packet, DataFrameID25& frame); 
+            void decode_ID26(const std::vector<uint8_t>& packet, DataFrameID26& frame); 
+            void decode_ID28(const std::vector<uint8_t>& packet, DataFrameID28& frame); 
+            void decode_ID29(const std::vector<uint8_t>& packet, DataFrameID29& frame); 
+        
+    };
+
+} // namespace decodeNav
