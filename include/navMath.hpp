@@ -27,4 +27,4 @@ namespace navMath {
             static Eigen::VectorXd SymmetricalAngle(const Eigen::VectorXd& x);
 
     };
-} // namespace decodeNav
+} // namespace navMath

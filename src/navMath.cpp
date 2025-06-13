@@ -84,28 +84,27 @@ namespace navMath {
     }
 
     double NavMath::SymmetricalAngle(double x) {
-        // Constants for 2π and π
-        constexpr double TWO_PI = 6.28318530717959;       // 2 * π
-        constexpr double PI = 3.14159265358979;           // π
-        constexpr double ONE_OVER_TWO_PI = 0.159154943091895; // 1 / (2 * π)
+        constexpr double PI = M_PI;
+        constexpr double TWO_PI = 2.0 * M_PI;
 
-        // Normalize angle: x = x - 2π * trunc(x / (2π))
-        x = x - TWO_PI * std::trunc(x * ONE_OVER_TWO_PI);
-        // Adjust to range [-π, +π): y = x + 2π * (x < -π) - 2π * (x >= π)
-        x = x + TWO_PI * static_cast<double>(x < -PI) - TWO_PI * static_cast<double>(x >= PI);
-        return x;
+        double y = std::remainder(x, TWO_PI);
+
+        // std::remainder(x, 2*PI) returns a value in [-PI, PI].
+        // For the range [-PI, PI), if the result is PI, it should be mapped to -PI.
+        if (y == PI) { // Note: direct floating point comparison. std::remainder should be exact for PI.
+            y = -PI;
+        }
+        return y;
     }
 
     Eigen::VectorXd NavMath::SymmetricalAngle(const Eigen::VectorXd& x) {
-        constexpr double TWO_PI = 6.28318530717959;
-        constexpr double PI = 3.14159265358979;
-        constexpr double ONE_OVER_TWO_PI = 0.159154943091895;
+        constexpr double PI = M_PI;
+        constexpr double TWO_PI = 2.0 * M_PI;
 
-        Eigen::VectorXd y = x;
-        Eigen::ArrayXd scaled = y.array() * ONE_OVER_TWO_PI;
-        y = y.array() - TWO_PI * scaled.unaryExpr([](double v) { return std::trunc(v); });
-        y = y.array() + TWO_PI * (y.array() < -PI).cast<double>() - TWO_PI * (y.array() >= PI).cast<double>();
-        return y;
+        return x.unaryExpr([PI, TWO_PI](double val) {
+            double y_val = std::remainder(val, TWO_PI);
+            return (y_val == PI) ? -PI : y_val;
+        });
     }
 
 } // namespace navMath
