@@ -107,4 +107,103 @@ namespace navMath {
         });
     }
 
+    Eigen::VectorXd NavMath::Normalize(const Eigen::VectorXd& u) {
+        // Ensure input vector has at least one element
+        if (u.size() == 0) {
+            return Eigen::VectorXd();
+        }
+
+        // Compute the Euclidean norm
+        double len = u.norm();
+
+        // Handle near-zero vector
+        if (len < 1e-12) {
+            Eigen::VectorXd y = Eigen::VectorXd::Zero(u.size());
+            y(0) = 1.0;
+            return y;
+        }
+
+        // Normalize the vector
+        return u / len;
+    }
+
+    Eigen::Vector4d NavMath::getQuat(double roll, double pitch, double yaw) {
+        // Compute half-angles
+        double phi = 0.5 * roll;
+        double theta = 0.5 * pitch;
+        double psi = 0.5 * yaw;
+
+        // Compute trigonometric functions
+        double c1 = std::cos(phi);
+        double c2 = std::cos(theta);
+        double c3 = std::cos(psi);
+        double s1 = std::sin(phi);
+        double s2 = std::sin(theta);
+        double s3 = std::sin(psi);
+
+        // Construct quaternion [qw, qx, qy, qz]
+        Eigen::Vector4d u;
+        u << c1 * c2 * c3 + s1 * s2 * s3,  // qw
+            s1 * c2 * c3 - c1 * s2 * s3,  // qx
+            c1 * s2 * c3 + s1 * c2 * s3,  // qy
+            c1 * c2 * s3 - s1 * s2 * c3;  // qz
+
+        // Normalize and return
+        return Normalize(u).cast<double>();
+    }
+
+    Eigen::Matrix3d NavMath::Cb2n(const Eigen::Vector4d& q) {
+        // Ensure input quaternion has correct size
+        if (q.size() != 4) {
+            return Eigen::Matrix3d::Identity(); // Return identity matrix for invalid input
+        }
+
+        // Quaternion components
+        double q0 = q(0); // qw
+        double q1 = q(1); // qx
+        double q2 = q(2); // qy
+        double q3 = q(3); // qz
+
+        // Compute products
+        double q0q0 = q0 * q0;
+        double q1q1 = q1 * q1;
+        double q2q2 = q2 * q2;
+        double q3q3 = q3 * q3;
+        double q1q2 = q1 * q2;
+        double q0q3 = q0 * q3;
+        double q1q3 = q1 * q3;
+        double q0q2 = q0 * q2;
+        double q2q3 = q2 * q3;
+        double q0q1 = q0 * q1;
+
+        // Construct rotation matrix
+        Eigen::Matrix3d C;
+        C << q0q0 + q1q1 - q2q2 - q3q3,  2.0 * (q1q2 - q0q3),          2.0 * (q1q3 + q0q2),
+            2.0 * (q1q2 + q0q3),        q0q0 - q1q1 + q2q2 - q3q3,    2.0 * (q2q3 - q0q1),
+            2.0 * (q1q3 - q0q2),        2.0 * (q2q3 + q0q1),          q0q0 - q1q1 - q2q2 + q3q3;
+
+        return C;
+    }
+
+    Eigen::Matrix4d NavMath::TransformMatrix(const Eigen::VectorXd& x) {
+        // Ensure input vector has at least 7 elements
+        if (x.size() < 7) {
+            return Eigen::Matrix4d::Identity(); // Return identity matrix for invalid input
+        }
+
+        // Extract position (x(1:3)) and quaternion (x(4:7))
+        Eigen::Vector3d p = x.segment<3>(0); // [px, py, pz]
+        Eigen::Vector4d q = x.segment<4>(3); // [qw, qx, qy, qz]
+
+        // Compute rotation matrix
+        Eigen::Matrix3d C = Cb2n(q);
+
+        // Construct 4x4 transformation matrix
+        Eigen::Matrix4d T = Eigen::Matrix4d::Identity();
+        T.block<3,3>(0,0) = C; // Set rotation part
+        T.block<3,1>(0,3) = p; // Set translation part
+
+        return T;
+    }
+
 } // namespace navMath
