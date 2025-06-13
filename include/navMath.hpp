@@ -1,20 +1,30 @@
 #pragma once
 
 #include <cstdint>
+#include <cmath>
+#include <Eigen/Dense>
 
 namespace navMath {
     class NavMath{
         public:
 
-            NavMath();
+            NavMath() = default;
 
-            void LLA2NED(const double lat, const double lon, const double alt, const double originlat, const double originlon, const double originalt);
+            // Scalar version: Convert a single LLA coordinate to NED
+            Eigen::Vector3d LLA2NED(double lat, double lon, double alt,
+                                    double originlat, double originlon, double originalt);
+
+            // Vector version: Convert multiple LLA coordinates to NED
+            Eigen::MatrixXd LLA2NED(const Eigen::VectorXd& lat, const Eigen::VectorXd& lon, const Eigen::VectorXd& alt,
+                                    double originlat, double originlon, double originalt);
 
         private:
 
-            double SymmetricalAngle(double x);
+            // Scalar SymmetricalAngle: Normalize angle to [-π, +π)
+            static double SymmetricalAngle(double x);
 
-            double OMEGA_EARTH = 7.292115e-5;           //Angular rate [rad/s] of the earth w.r.t. the inertial frame.
+            // Vector SymmetricalAngle: Normalize array of angles to [-π, +π)
+            static Eigen::VectorXd SymmetricalAngle(const Eigen::VectorXd& x);
 
     };
 } // namespace decodeNav
