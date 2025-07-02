@@ -17,43 +17,23 @@ namespace decodeNav {
 
         // Validate packet size
         if (packet.size() != expected_size_) {
-            std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
+            // std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
             return;
         }
 
         // Validate Packet ID (at offset 1)
         uint8_t packet_id = packet[1];
         if (packet_id != packet_id_) {
-            std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id)
-                        << std::dec << " (expected 0x14)" << std::endl;
+            // std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id) << std::dec << " (expected 0x14)" << std::endl;
             return;
         }
 
         // Validate Packet Length (at offset 2)
         uint8_t packet_length = packet[2];
         if (packet_length != data_size_) {
-            std::cerr << "Invalid packet length: " << static_cast<int>(packet_length)
-                        << ", expected: " << data_size_ << std::endl;
+            // std::cerr << "Invalid packet length: " << static_cast<int>(packet_length) << ", expected: " << data_size_ << std::endl;
             return;
         }
-
-        // Optional: Validate Header LRC (at offset 0)
-        // uint8_t header_lrc = packet[0];
-        // TODO: Implement LRC validation (requires LRC calculation logic)
-        // if (!validate_lrc(packet.data(), header_lrc)) {
-        //     std::cerr << "Invalid Header LRC: 0x" << std::hex << static_cast<int>(header_lrc) << std::dec << std::endl;
-        //     return;
-        // }
-
-        // Optional: Validate CRC (at offset 3-4)
-        // uint16_t crc_raw;
-        // std::memcpy(&crc_raw, packet.data() + 3, sizeof(uint16_t));
-        // uint16_t crc = le16toh(crc_raw);
-        // TODO: Implement CRC16-CCITT validation (covers packet data from byte 5 onwards)
-        // if (!validate_crc(packet.data() + header_size_, data_size_, crc)) {
-        //     std::cerr << "Invalid CRC: 0x" << std::hex << crc << std::dec << std::endl;
-        //     return;
-        // }
 
         // Clear the output frame to ensure a clean state
         frame.clear();
@@ -102,7 +82,7 @@ namespace decodeNav {
         uint32_t seconds = le32toh(seconds_raw);
         uint32_t microseconds = le32toh(microseconds_raw);
         if (microseconds > 999999) {
-            std::cerr << "Invalid microseconds: " << microseconds << " (expected 0-999999)" << std::endl;
+            // std::cerr << "Invalid microseconds: " << microseconds << " (expected 0-999999)" << std::endl;
             return;
         }
         frame.unixTime = static_cast<double>(seconds) + static_cast<double>(microseconds) * 1e-6;
@@ -152,43 +132,23 @@ namespace decodeNav {
 
         // Validate packet size
         if (packet.size() != expected_size_) {
-            std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
+            // std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
             return;
         }
 
         // Validate Packet ID (at offset 1)
         uint8_t packet_id = packet[1];
         if (packet_id != packet_id_) {
-            std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id)
-                    << std::dec << " (expected 0x19)" << std::endl;
+            // std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id) << std::dec << " (expected 0x19)" << std::endl;
             return;
         }
 
         // Validate Packet Length (at offset 2)
         uint8_t packet_length = packet[2];
         if (packet_length != data_size_) {
-            std::cerr << "Invalid packet length: " << static_cast<int>(packet_length)
-                    << ", expected: " << static_cast<int>(data_size_) << std::endl;
+            // std::cerr << "Invalid packet length: " << static_cast<int>(packet_length) << ", expected: " << static_cast<int>(data_size_) << std::endl;
             return;
         }
-
-        // Optional: Validate Header LRC (at offset 0)
-        // uint8_t header_lrc = packet[0];
-        // TODO: Implement LRC validation (requires LRC calculation logic)
-        // if (!validate_lrc(packet.data(), header_lrc)) {
-        //     std::cerr << "Invalid Header LRC: 0x" << std::hex << static_cast<int>(header_lrc) << std::dec << std::endl;
-        //     return;
-        // }
-
-        // Optional: Validate CRC (at offset 3-4)
-        // uint16_t crc_raw;
-        // std::memcpy(&crc_raw, packet.data() + 3, sizeof(uint16_t));
-        // uint16_t crc = le16toh(crc_raw);
-        // TODO: Implement CRC16-CCITT validation (covers packet data from byte 5 onwards)
-        // if (!validate_crc(packet.data() + header_size_, data_size_, crc)) {
-        //     std::cerr << "Invalid CRC: 0x" << std::hex << crc << std::dec << std::endl;
-        //     return;
-        // }
 
         // Clear the output frame to ensure a clean state
         frame.clear();
@@ -210,43 +170,23 @@ namespace decodeNav {
 
         // Validate packet size
         if (packet.size() != expected_size_) {
-            std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
+            // std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
             return;
         }
 
         // Validate Packet ID (at offset 1)
         uint8_t packet_id = packet[1];
         if (packet_id != packet_id_) {
-            std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id)
-                    << std::dec << " (expected 0x1A)" << std::endl;
+            // std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id) << std::dec << " (expected 0x1A)" << std::endl;
             return;
         }
 
         // Validate Packet Length (at offset 2)
         uint8_t packet_length = packet[2];
         if (packet_length != data_size_) {
-            std::cerr << "Invalid packet length: " << static_cast<int>(packet_length)
-                    << ", expected: " << static_cast<int>(data_size_) << std::endl;
+            // std::cerr << "Invalid packet length: " << static_cast<int>(packet_length) << ", expected: " << static_cast<int>(data_size_) << std::endl;
             return;
         }
-
-        // Optional: Validate Header LRC (at offset 0)
-        // uint8_t header_lrc = packet[0];
-        // TODO: Implement LRC validation (requires LRC calculation logic)
-        // if (!validate_lrc(packet.data(), header_lrc)) {
-        //     std::cerr << "Invalid Header LRC: 0x" << std::hex << static_cast<int>(header_lrc) << std::dec << std::endl;
-        //     return;
-        // }
-
-        // Optional: Validate CRC (at offset 3-4)
-        // uint16_t crc_raw;
-        // std::memcpy(&crc_raw, packet.data() + 3, sizeof(uint16_t));
-        // uint16_t crc = le16toh(crc_raw);
-        // TODO: Implement CRC16-CCITT validation (covers packet data from byte 5 onwards)
-        // if (!validate_crc(packet.data() + header_size_, data_size_, crc)) {
-        //     std::cerr << "Invalid CRC: 0x" << std::hex << crc << std::dec << std::endl;
-        //     return;
-        // }
 
         // Clear the output frame to ensure a clean state
         frame.clear();
@@ -268,43 +208,23 @@ namespace decodeNav {
 
         // Validate packet size
         if (packet.size() != expected_size_) {
-            std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
+            // std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
             return;
         }
 
         // Validate Packet ID (at offset 1)
         uint8_t packet_id = packet[1];
         if (packet_id != packet_id_) {
-            std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id)
-                    << std::dec << " (expected 0x1C)" << std::endl;
+            // std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id) << std::dec << " (expected 0x1C)" << std::endl;
             return;
         }
 
         // Validate Packet Length (at offset 2)
         uint8_t packet_length = packet[2];
         if (packet_length != data_size_) {
-            std::cerr << "Invalid packet length: " << static_cast<int>(packet_length)
-                    << ", expected: " << static_cast<int>(data_size_) << std::endl;
+            // std::cerr << "Invalid packet length: " << static_cast<int>(packet_length) << ", expected: " << static_cast<int>(data_size_) << std::endl;
             return;
         }
-
-        // Optional: Validate Header LRC (at offset 0)
-        // uint8_t header_lrc = packet[0];
-        // TODO: Implement LRC validation (requires LRC calculation logic)
-        // if (!validate_lrc(packet.data(), header_lrc)) {
-        //     std::cerr << "Invalid Header LRC: 0x" << std::hex << static_cast<int>(header_lrc) << std::dec << std::endl;
-        //     return;
-        // }
-
-        // Optional: Validate CRC (at offset 3-4)
-        // uint16_t crc_raw;
-        // std::memcpy(&crc_raw, packet.data() + 3, sizeof(uint16_t));
-        // uint16_t crc = le16toh(crc_raw);
-        // TODO: Implement CRC16-CCITT validation (covers packet data from byte 5 onwards)
-        // if (!validate_crc(packet.data() + header_size_, data_size_, crc)) {
-        //     std::cerr << "Invalid CRC: 0x" << std::hex << crc << std::dec << std::endl;
-        //     return;
-        // }
 
         // Clear the output frame to ensure a clean state
         frame.clear();
@@ -335,43 +255,23 @@ namespace decodeNav {
 
         // Validate packet size
         if (packet.size() != expected_size_) {
-            std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
+            // std::cerr << "Invalid packet size: " << packet.size() << ", expected: " << expected_size_ << std::endl;
             return;
         }
 
         // Validate Packet ID (at offset 1)
         uint8_t packet_id = packet[1];
         if (packet_id != packet_id_) {
-            std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id)
-                    << std::dec << " (expected 0x1D)" << std::endl;
+            // std::cerr << "Invalid packet ID: 0x" << std::hex << static_cast<int>(packet_id) << std::dec << " (expected 0x1D)" << std::endl;
             return;
         }
 
         // Validate Packet Length (at offset 2)
         uint8_t packet_length = packet[2];
         if (packet_length != data_size_) {
-            std::cerr << "Invalid packet length: " << static_cast<int>(packet_length)
-                    << ", expected: " << static_cast<int>(data_size_) << std::endl;
+            // std::cerr << "Invalid packet length: " << static_cast<int>(packet_length) << ", expected: " << static_cast<int>(data_size_) << std::endl;
             return;
         }
-
-        // Optional: Validate Header LRC (at offset 0)
-        // uint8_t header_lrc = packet[0];
-        // TODO: Implement LRC validation (requires LRC calculation logic)
-        // if (!validate_lrc(packet.data(), header_lrc)) {
-        //     std::cerr << "Invalid Header LRC: 0x" << std::hex << static_cast<int>(header_lrc) << std::dec << std::endl;
-        //     return;
-        // }
-
-        // Optional: Validate CRC (at offset 3-4)
-        // uint16_t crc_raw;
-        // std::memcpy(&crc_raw, packet.data() + 3, sizeof(uint16_t));
-        // uint16_t crc = le16toh(crc_raw);
-        // TODO: Implement CRC16-CCITT validation (covers packet data from byte 5 onwards)
-        // if (!validate_crc(packet.data() + header_size_, data_size_, crc)) {
-        //     std::cerr << "Invalid CRC: 0x" << std::hex << crc << std::dec << std::endl;
-        //     return;
-        // }
 
         // Clear the output frame to ensure a clean state
         frame.clear();
@@ -383,7 +283,7 @@ namespace decodeNav {
         uint32_t seconds = le32toh(seconds_raw);
         uint32_t microseconds = le32toh(microseconds_raw);
         if (microseconds > 999999) {
-            std::cerr << "Invalid microseconds: " << microseconds << " (expected 0-999999)" << std::endl;
+            // std::cerr << "Invalid microseconds: " << microseconds << " (expected 0-999999)" << std::endl;
             return;
         }
         frame.unixTime = static_cast<double>(seconds) + static_cast<double>(microseconds) * 1e-6;
