@@ -4,7 +4,7 @@
 
 namespace navMath {
 
-    Eigen::Vector3d NavMath::LLA2NED(double lat, double lon, double alt,
+    Eigen::Vector3d LLA2NED(double lat, double lon, double alt,
                                     double originlat, double originlon, double originalt) {
         // Input validation
         assert(std::abs(lat) <= M_PI / 2 && std::abs(originlat) <= M_PI / 2 &&
@@ -41,7 +41,7 @@ namespace navMath {
         return Eigen::Vector3d(N, E, D);
     }
 
-    Eigen::MatrixXd NavMath::LLA2NED(const Eigen::VectorXd& lat, const Eigen::VectorXd& lon, const Eigen::VectorXd& alt,
+    Eigen::MatrixXd LLA2NED(const Eigen::VectorXd& lat, const Eigen::VectorXd& lon, const Eigen::VectorXd& alt,
                                     double originlat, double originlon, double originalt) {
         // Input validation
         assert(lat.size() == lon.size() && lat.size() == alt.size() &&
@@ -83,7 +83,7 @@ namespace navMath {
         return result;
     }
 
-    double NavMath::SymmetricalAngle(double x) {
+    double SymmetricalAngle(double x) {
         constexpr double PI = M_PI;
         constexpr double TWO_PI = 2.0 * M_PI;
 
@@ -97,7 +97,7 @@ namespace navMath {
         return y;
     }
 
-    Eigen::VectorXd NavMath::SymmetricalAngle(const Eigen::VectorXd& x) {
+    Eigen::VectorXd SymmetricalAngle(const Eigen::VectorXd& x) {
         constexpr double PI = M_PI;
         constexpr double TWO_PI = 2.0 * M_PI;
 
@@ -107,7 +107,7 @@ namespace navMath {
         });
     }
 
-    Eigen::VectorXd NavMath::Normalize(const Eigen::VectorXd& u) {
+    Eigen::VectorXd Normalize(const Eigen::VectorXd& u) {
         // Ensure input vector has at least one element
         if (u.size() == 0) {
             return Eigen::VectorXd();
@@ -127,7 +127,7 @@ namespace navMath {
         return u / len;
     }
 
-    Eigen::Vector4d NavMath::getQuat(double roll, double pitch, double yaw) {
+    Eigen::Vector4d getQuat(double roll, double pitch, double yaw) {
         // Compute half-angles
         double phi = 0.5 * roll;
         double theta = 0.5 * pitch;
@@ -152,7 +152,7 @@ namespace navMath {
         return Normalize(u).cast<double>();
     }
 
-    Eigen::Matrix3d NavMath::Cb2n(const Eigen::Vector4d& q) {
+    Eigen::Matrix3d Cb2n(const Eigen::Vector4d& q) {
         // Ensure input quaternion has correct size
         if (q.size() != 4) {
             return Eigen::Matrix3d::Identity(); // Return identity matrix for invalid input
@@ -185,7 +185,7 @@ namespace navMath {
         return C;
     }
 
-    Eigen::Matrix4d NavMath::TransformMatrix(const Eigen::VectorXd& x) {
+    Eigen::Matrix4d TransformMatrix(const Eigen::VectorXd& x) {
         // Ensure input vector has at least 7 elements
         if (x.size() < 7) {
             return Eigen::Matrix4d::Identity(); // Return identity matrix for invalid input
