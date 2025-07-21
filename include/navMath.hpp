@@ -26,12 +26,12 @@ namespace navMath {
 
 
         // Scalar SymmetricalAngle: Normalize angle to [-π, +π)
-        static double SymmetricalAngle(double x);
+        double SymmetricalAngle(double x);
 
         // Vector SymmetricalAngle: Normalize array of angles to [-π, +π)
-        static Eigen::VectorXd SymmetricalAngle(const Eigen::VectorXd& x);
+        Eigen::VectorXd SymmetricalAngle(const Eigen::VectorXd& x);
         
         //Safe normalization of an input vector.
-        static Eigen::VectorXd Normalize(const Eigen::VectorXd& u);
+        Eigen::VectorXd Normalize(const Eigen::VectorXd& u);
 
 } // namespace navMath
