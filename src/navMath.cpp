@@ -5,7 +5,7 @@
 namespace navMath {
 
     Eigen::Vector3d LLA2NED(double lat, double lon, double alt,
-                                    double originlat, double originlon, double originalt) {
+                                    double originlat, double originlon, double originalt) { //Tmr (T_map_robot). It represents the robot's position within the map frame.
         // Input validation
         assert(std::abs(lat) <= M_PI / 2 && std::abs(originlat) <= M_PI / 2 &&
             "Latitude must be in [-pi/2, pi/2]");
@@ -127,7 +127,7 @@ namespace navMath {
         return u / len;
     }
 
-    Eigen::Vector4d getQuat(double roll, double pitch, double yaw) {
+    Eigen::Vector4d getQuat(double roll, double pitch, double yaw) {// The output quaternion represents the rotation from the robot frame to the map frame. This corresponds to the rotational part of Tmr.
         // Compute half-angles
         double phi = 0.5 * roll;
         double theta = 0.5 * pitch;
@@ -152,7 +152,7 @@ namespace navMath {
         return Normalize(u).cast<double>();
     }
 
-    Eigen::Matrix3d Cb2n(const Eigen::Vector4d& q) {
+    Eigen::Matrix3d Cb2n(const Eigen::Vector4d& q) { //The resulting matrix transforms a vector from the body (robot) frame to the navigation (map) frame. This is a Rmr (R_map_robot) matrix.
         // Ensure input quaternion has correct size
         if (q.size() != 4) {
             return Eigen::Matrix3d::Identity(); // Return identity matrix for invalid input
@@ -185,7 +185,7 @@ namespace navMath {
         return C;
     }
 
-    Eigen::Matrix4d TransformMatrix(const Eigen::VectorXd& x) {
+    Eigen::Matrix4d TransformMatrix(const Eigen::VectorXd& x) { // Since it uses the output of Cb2n for its rotation part, the resulting 4x4 matrix represents the full pose of the robot in the map. It transforms points from the robot frame to the map frame. This is a Tmr (T_map_robot) matrix.
         // Ensure input vector has at least 7 elements
         if (x.size() < 7) {
             return Eigen::Matrix4d::Identity(); // Return identity matrix for invalid input
